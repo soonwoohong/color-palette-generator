@@ -21,12 +21,3 @@ The examples are source-informed starting points, not official journal palettes 
 
 - Wong / Okabe-Ito categorical anchors are based on Bang Wong's Nature Methods color-blindness guidance: https://www.nature.com/articles/nmeth.1618
 - Nature-family author guidance encourages accessible pairings such as green-magenta, turquoise-red, and yellow-blue: https://www.nature.com/nature/for-authors/initial-submission and https://www.nature.com/ncomms/submit/how-to-submit
-
-## Share on GitHub Pages
-
-1. Create a new GitHub repository.
-2. Add this folder's files to the repository root.
-3. Commit and push.
-4. In GitHub, go to Settings -> Pages.
-5. Choose "Deploy from a branch", select `main`, and select `/root`.
-6. Your app will be available at `https://YOUR-USER.github.io/YOUR-REPO/`.

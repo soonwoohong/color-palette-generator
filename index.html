@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Color Palette Generator for Publication</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Color Palette Generator for Publication</p>
+          <h1>Color palette generator for publication</h1>
+        </div>
+        <div class="topbar-meta">
+          <span id="qualityBadge" class="quality-badge">Checking</span>
+          <span class="disclaimer">One universal color profile. Examples are source-informed starting points, not official journal palettes.</span>
+        </div>
+      </header>
+
+      <section class="studio-layout" aria-label="Palette builder">
+        <aside class="control-panel" aria-label="Palette controls">
+          <section class="control-section">
+            <div class="section-title">
+              <span>Paper system</span>
+            </div>
+
+            <label class="field">
+              <span>Published-style starting point</span>
+              <select id="examplePalette">
+                <option value="vivid">Universal vivid color</option>
+                <option value="wong">Wong / Okabe-Ito accessible</option>
+                <option value="greenMagenta">Green-magenta fluorescence</option>
+                <option value="turquoiseRed">Turquoise-red contrast</option>
+                <option value="yellowBlue">Yellow-blue contrast</option>
+                <option value="atlas">Single-cell atlas vivid</option>
+                <option value="custom">Custom from chosen colors</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Figure context</span>
+              <select id="figureContext">
+                <option value="lines">Multi-line plot</option>
+                <option value="scatter">Scatter groups</option>
+                <option value="heatmap">Heatmap or matrix</option>
+                <option value="bars">Grouped bars</option>
+              </select>
+            </label>
+
+            <div id="sourceNote" class="source-note" aria-live="polite"></div>
+          </section>
+
+          <section class="control-section">
+            <div class="section-title">
+              <span>Base colors</span>
+              <output id="countLabel" for="count">7</output>
+            </div>
+
+            <label class="field">
+              <span>Colors per palette</span>
+              <input id="count" type="range" min="3" max="12" value="7" />
+            </label>
+
+            <div class="color-row">
+              <label class="field color-field">
+                <span>Base color</span>
+                <input id="seedColor" type="color" value="#007c89" />
+              </label>
+              <label class="field color-field">
+                <span>Contrast color</span>
+                <input id="accentColor" type="color" value="#e64b35" />
+              </label>
+            </div>
+
+            <div class="hex-row">
+              <label class="field hex-field">
+                <span>Base HEX</span>
+                <input id="seedHex" type="text" inputmode="text" maxlength="7" value="#007c89" />
+              </label>
+              <label class="field hex-field">
+                <span>Contrast HEX</span>
+                <input id="accentHex" type="text" inputmode="text" maxlength="7" value="#e64b35" />
+              </label>
+            </div>
+
+            <div class="field">
+              <span>Popular colors</span>
+              <div class="target-toggle" role="radiogroup" aria-label="Apply popular color to">
+                <label><input type="radio" name="colorTarget" value="seed" checked /> Base</label>
+                <label><input type="radio" name="colorTarget" value="accent" /> Contrast</label>
+              </div>
+              <div id="popularColors" class="popular-colors" aria-label="Popular color choices"></div>
+            </div>
+
+            <label class="field">
+              <span>Hue breadth</span>
+              <input id="hueBreadth" type="range" min="40" max="330" value="220" />
+            </label>
+
+            <label class="field">
+              <span>Color intensity</span>
+              <input id="intensity" type="range" min="20" max="100" value="72" />
+            </label>
+
+            <label class="field">
+              <span>Lightness contrast</span>
+              <input id="contrast" type="range" min="20" max="100" value="68" />
+            </label>
+          </section>
+
+          <section class="control-section">
+            <div class="section-title">
+              <span>Publication checks</span>
+            </div>
+
+            <label class="switch-row">
+              <input id="cvdSafe" type="checkbox" checked />
+              <span>Color-vision robust</span>
+            </label>
+
+            <label class="switch-row">
+              <input id="printSafe" type="checkbox" checked />
+              <span>Grayscale legibility</span>
+            </label>
+
+            <label class="switch-row">
+              <input id="vividBoost" type="checkbox" checked />
+              <span>Vivid boost</span>
+            </label>
+
+            <label class="switch-row">
+              <input id="contrastBoost" type="checkbox" checked />
+              <span>Background contrast boost</span>
+            </label>
+
+            <label class="switch-row">
+              <input id="invert" type="checkbox" />
+              <span>Reverse order</span>
+            </label>
+
+            <label class="field">
+              <span>Viewer mode</span>
+              <select id="visionMode">
+                <option value="normal">Standard color vision</option>
+                <option value="deuteranopia">Deuteranopia preview</option>
+                <option value="protanopia">Protanopia preview</option>
+                <option value="tritanopia">Tritanopia preview</option>
+                <option value="achromatopsia">Achromatopsia / grayscale</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Figure background</span>
+              <select id="background">
+                <option value="#ffffff">White page</option>
+                <option value="#f7f7f3">Warm page</option>
+                <option value="#f3f6f8">Cool page</option>
+                <option value="#1d2328">Dark slide</option>
+              </select>
+            </label>
+
+            <div class="action-row">
+              <button id="randomize" class="button primary" type="button">Generate</button>
+              <button id="reset" class="button" type="button">Reset</button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="workspace" aria-label="Palette output">
+          <section class="evaluation-layout">
+            <section class="figure-workbench">
+              <div class="figure-toolbar">
+                <div>
+                  <p class="eyebrow">Preview</p>
+                  <h2 id="previewTitle">Multi-line plot</h2>
+                </div>
+                <div class="view-tabs" role="tablist" aria-label="Preview type">
+                  <button class="view-tab active" type="button" data-view="lines">Lines</button>
+                  <button class="view-tab" type="button" data-view="scatter">Scatter</button>
+                  <button class="view-tab" type="button" data-view="heatmap">Heatmap</button>
+                  <button class="view-tab" type="button" data-view="bars">Bars</button>
+                </div>
+              </div>
+              <div id="figureStage" class="figure-stage">
+                <svg id="previewSvg" viewBox="0 0 900 430" role="img" aria-label="Palette preview"></svg>
+              </div>
+            </section>
+
+            <section class="metrics-grid" aria-label="Quality metrics">
+              <article class="metric">
+                <span class="metric-label">Perceptual separation</span>
+                <strong id="deltaMetric">0</strong>
+                <span id="deltaStatus">Delta E</span>
+              </article>
+              <article class="metric">
+                <span class="metric-label">Color-blind separation</span>
+                <strong id="cvdMetric">0</strong>
+                <span id="cvdStatus">Minimum distance</span>
+              </article>
+              <article class="metric">
+                <span class="metric-label">Grayscale separation</span>
+                <strong id="grayMetric">0</strong>
+                <span id="grayStatus">Lightness</span>
+              </article>
+              <article class="metric">
+                <span class="metric-label">Background contrast</span>
+                <strong id="contrastMetric">0</strong>
+                <span id="contrastStatus">Ratio</span>
+              </article>
+            </section>
+          </section>
+
+          <section class="palette-band">
+            <div class="palette-header">
+              <div>
+                <p class="eyebrow">Coordinated system</p>
+                <h2 id="paletteTitle">Universal vivid color palette</h2>
+              </div>
+              <div class="compact-actions">
+                <button id="copyHex" class="button" type="button">Copy HEX</button>
+                <button id="downloadCsv" class="button" type="button">CSV</button>
+                <button id="downloadSvg" class="button" type="button">SVG</button>
+              </div>
+            </div>
+            <div id="swatches" class="palette-system compact-system" aria-live="polite"></div>
+          </section>
+
+          <section class="sim-export-layout">
+            <section class="simulation-panel">
+              <div class="section-title">
+                <span>Color-vision simulation</span>
+              </div>
+              <div id="simulations" class="simulation-stack"></div>
+            </section>
+
+            <section class="export-panel">
+              <div class="section-title">
+                <span>Export</span>
+                <span id="copyStatus" class="copy-status" aria-live="polite"></span>
+              </div>
+              <label class="field">
+                <span>Format</span>
+                <select id="exportFormat">
+                  <option value="hex">Coordinated HEX system</option>
+                  <option value="python">Python / Matplotlib</option>
+                  <option value="r">R / ggplot2</option>
+                  <option value="css">CSS variables</option>
+                  <option value="json">JSON</option>
+                </select>
+              </label>
+              <textarea id="exportText" readonly spellcheck="false"></textarea>
+              <div class="action-row">
+                <button id="copyExport" class="button primary" type="button">Copy export</button>
+              </div>
+            </section>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
